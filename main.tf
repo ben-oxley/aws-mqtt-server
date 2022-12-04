@@ -65,5 +65,5 @@ resource "aws_iot_thing" "ESP8266" {
 
 resource "aws_iot_policy_attachment" "att" {
   policy = aws_iot_policy.pubsub.name
-  target = aws_iot_thing.ESP8266.
+  target = "arn:aws:iot:eu-west-2:536507824931:cert/ece436695904f406c4965ea5907efbbe1d692e06d225aa9bd27cdec341ae6f8f"
 }
