@@ -20,6 +20,8 @@ provider "aws" {
   region  = "eu-west-2"
 }
 
+
+
 resource "aws_s3_bucket" "state" {
   bucket = "aws-mqtt-state-dev"
 
@@ -55,12 +57,6 @@ resource "aws_iot_policy" "pubsub" {
 
 resource "aws_iot_thing" "ESP8266" {
   name = "4-Channel-Mains-Current-Sensor-ESP8266"
-
-  attributes = {
-    Mode = "examplevalue"
-    Sensor1 = "Sensor1"
-    Sensor2 = "Sensor2"
-  }
 }
 
 resource "aws_iot_policy_attachment" "att" {
