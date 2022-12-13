@@ -6,25 +6,9 @@ resource "aws_iot_topic_rule" "rule" {
   sql_version = "2016-03-23"
 
   lambda {
-    
+    function_arn = aws_lambda_function.publish_to_influx.arn
   }
 
-  timestream {
-    dimension { 
-        name="time" 
-        value=""
-    }
-    dimension {
-      name="value0"
-      value=""
-    }
-  }
-
-  sns {
-    message_format = "RAW"
-    role_arn       = aws_iam_role.role.arn
-    target_arn     = aws_sns_topic.mytopic.arn
-  }
 
   error_action {
     sns {
