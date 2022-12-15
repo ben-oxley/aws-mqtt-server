@@ -75,14 +75,30 @@ exports.handler =  async (event) => {
   
     //create InfluxDB api client with URL and token, then create Write API for the specific org and bucket
     const writeApi = await new InfluxDB({url, token}).getWriteApi(org, bucket);
-
+    for 
     //create a data point with health as the measurement name, a field value for heart beat, and userID tag
-    const dataPoint = new Point('health')
-        .tag('userID', event['userID'])
-        .floatField('heartRate', event['heartRate'])
+    const dataPoint0 = new Point('power')
+        .tag('ip', event['ip'])
+        .tag('type', 'total')
+        .floatField('value', event['value0'])
+    
+    const dataPoint1 = new Point('power')
+        .tag('ip', event['ip'])
+        .tag('type', 'top')
+        .floatField('value', event['value1'])
+      
+    const dataPoint2 = new Point('power')
+        .tag('ip', event['ip'])
+        .tag('type', 'bottom')
+        .floatField('value', event['value2'])
+    
+    const dataPoint3 = new Point('power')
+        .tag('ip', event['ip'])
+        .tag('type', 'garage')
+        .floatField('value', event['value3'])
 
     //write data point
-    await writeApi.writePoint(dataPoint)
+    await writeApi.writePoint([dataPoint0,dataPoint1,dataPoint2,dataPoint3])
 
     //close write API
     await writeApi.close().then(() => {
