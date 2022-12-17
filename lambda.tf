@@ -75,30 +75,49 @@ exports.handler =  async (event) => {
   
     //create InfluxDB api client with URL and token, then create Write API for the specific org and bucket
     const writeApi = await new InfluxDB({url, token}).getWriteApi(org, bucket);
-    for 
+
     //create a data point with health as the measurement name, a field value for heart beat, and userID tag
     const dataPoint0 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'total')
+        .tag('send_time',event['time'])
+        .tag('mac', event['mac'])
         .floatField('value', event['value0'])
     
     const dataPoint1 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'top')
+        .tag('send_time',event['time'])
+        .tag('mac', event['mac'])
         .floatField('value', event['value1'])
       
     const dataPoint2 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'bottom')
+        .tag('send_time',event['time'])
+        .tag('mac', event['mac'])
         .floatField('value', event['value2'])
     
     const dataPoint3 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'garage')
+        .tag('send_time',event['time'])
+        .tag('mac', event['mac'])
         .floatField('value', event['value3'])
 
+    const devicePoint = new Point('device')
+        .tag('ip', event['ip'])
+        .tag('rssi', event['rssi'])
+        .tag('mac', event['mac'])
+        .tag('type', 'garage')
+        .intField('rssi', event['rssi'])
+
     //write data point
-    await writeApi.writePoint([dataPoint0,dataPoint1,dataPoint2,dataPoint3])
+    await writeApi.writePoint(devicePoint)
+    await writeApi.writePoint(dataPoint0)
+    await writeApi.writePoint(dataPoint1)
+    await writeApi.writePoint(dataPoint2)
+    await writeApi.writePoint(dataPoint3)
 
     //close write API
     await writeApi.close().then(() => {
