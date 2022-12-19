@@ -87,37 +87,39 @@ exports.handler =  async (event) => {
     const dataPoint1 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'top')
-        .tag('send_time',event['time'])
         .tag('mac', event['mac'])
         .floatField('value', event['value1'])
       
     const dataPoint2 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'bottom')
-        .tag('send_time',event['time'])
         .tag('mac', event['mac'])
         .floatField('value', event['value2'])
     
     const dataPoint3 = new Point('power')
         .tag('ip', event['ip'])
         .tag('type', 'garage')
-        .tag('send_time',event['time'])
         .tag('mac', event['mac'])
         .floatField('value', event['value3'])
 
     const devicePoint = new Point('device')
         .tag('ip', event['ip'])
-        .tag('rssi', event['rssi'])
         .tag('mac', event['mac'])
         .tag('type', 'garage')
         .intField('rssi', event['rssi'])
 
-    //write data point
-    await writeApi.writePoint(devicePoint)
-    await writeApi.writePoint(dataPoint0)
-    await writeApi.writePoint(dataPoint1)
-    await writeApi.writePoint(dataPoint2)
-    await writeApi.writePoint(dataPoint3)
+    if (event['value3']<2){
+      //write data point
+      await writeApi.writePoint(devicePoint);
+      await writeApi.writePoint(dataPoint0);
+      await writeApi.writePoint(dataPoint1);
+      await writeApi.writePoint(dataPoint2);
+      await writeApi.writePoint(dataPoint3);
+    } else {
+      console.log('Sensor error')
+    }
+
+    
 
     //close write API
     await writeApi.close().then(() => {
