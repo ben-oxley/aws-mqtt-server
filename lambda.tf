@@ -76,7 +76,7 @@ exports.handler =  async (event) => {
     //create InfluxDB api client with URL and token, then create Write API for the specific org and bucket
     const writeApi = await new InfluxDB({url, token}).getWriteApi(org, bucket);
 
-    const cal_value = 22.959183673469387755102040816327
+    const cal_value = 30.054531934231182351483103362803
 
     //create a data point with health as the measurement name, a field value for heart beat, and userID tag
     const dataPoint0 = new Point('power')
